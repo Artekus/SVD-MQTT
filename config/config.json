@@ -19,7 +19,7 @@
         }
     ],
     "FFmpegPathManual": "C:\\FFMPEG\\bin\\ffmpeg.exe",
-    "UseFFmpegManPath": true,
+    "UseFFmpegManPath": false,
     "FFMPEGupdateTime": 4,
     "OnErrorValue": "future",
     "defaultMessage": "unavailable"
