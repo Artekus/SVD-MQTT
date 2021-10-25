@@ -299,18 +299,19 @@ function addCamStream(decodeMessage, callback) {
 
 //Restart the stream function
 function restartCamStream(decodeMessage, callback) {
+    let funcCamStatus = "";
     if (arrayCamTimeIntervals[decodeMessage.name]) {
         stopCamStream(decodeMessage, function (response) {
-            if (response == "stopped") {
-                startCamStream(decodeMessage, function (response) {
-                    if (response == "started") {
-                        return callback("restarted");
-                    }
-                });//responseMQTTST.response = response;
-                return callback("failed to restart");
+            if (response != "stopped") {
+                return callback(response);
             }
-        });   
-
+        });
+        startCamStream(decodeMessage, function (response) {
+            if (response != "started") {
+                return callback(response);
+            }
+        });//responseMQTTST.response = response;
+        return callback("restarted");
     }
     return callback("failed to restart");
 }
