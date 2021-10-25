@@ -6,7 +6,7 @@ It can run on Windows, Docker, Linux if the appropriate dependencies are met, No
 
 The config.json file works as follows:
 
-Configure the MQTT Server settings by editing the config.json file accordingly. TTS and user/password has not been setup yet but maybe added at a future time.
+Configure the MQTT Server settings by editing the config.json file accordingly. SSL and user/password has not been setup yet but maybe added at a future time.
 
 Configure the Cameras or Streams the same way, provide a name, the stream address and the analysis interval in seconds. To add addiional camera, utilize the same json structure and add another set to the array.
 
