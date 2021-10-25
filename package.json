@@ -1,0 +1,14 @@
+{
+  "name": "audio-level",
+  "version": "0.0.0",
+  "description": "AudioLevel",
+  "main": "app.js",
+  "author": {
+    "name": ""
+  },
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "mqtt": "^4.2.8"
+  }
+}

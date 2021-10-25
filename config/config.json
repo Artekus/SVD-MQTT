@@ -1,0 +1,26 @@
+{
+    "mqttServer": "mqtt://192.168.1.1",
+    "clientid": "AudioLevel",
+    "topic": "volume",
+    "mqttOptions": {
+        "retain": true,
+        "qos": 1
+    },
+    "cameras": [
+        {
+            "name": "somename_cam",
+            "streamURL": "rtsp://username:password@ipaddress",
+            "UpdateTime":  4
+        },
+        {
+            "name": "anothercamera",
+            "streamURL": "rtsp://wyzertspuser:wyzertsppass@ipaddress/live",
+            "UpdateTime": 4
+        }
+    ],
+    "FFmpegPathManual": "C:\\FFMPEG\\bin\\ffmpeg.exe",
+    "UseFFmpegManPath": true,
+    "FFMPEGupdateTime": 4,
+    "OnErrorValue": "future",
+    "defaultMessage": "unavailable"
+}
