@@ -94,8 +94,8 @@ function startAnalysis(i, CAMERA_DATA) {
                     //Sets mqtt message to error message if nothing returned
                     if (!statVolume) { 
                         mqttCamStatusValues[CAMERA_DATA[i].name].volume.ffmpeg_stat = "Unknown Process Error";
-                        messageReturn = JSON.stringify({ "volume": { 'max': mqttCamStatusValues[CAMERA_DATA[i].name].max, 'mean': mqttCamStatusValues[CAMERA_DATA[i].name].mean, 'ffmpeg_stat': mqttCamStatusValues[CAMERA_DATA[i].name].ffmpeg_stat, 'cam_stat': 'running', "time": new Date().toISOString() } });
-                        mqttpublish(topic + "/" + CAMERA_DATA[i].name, messageReturn, mqttmsgoptions, statVolume.id, function (posted) {
+                        messageReturn = JSON.stringify({ "volume": { 'max': mqttCamStatusValues[CAMERA_DATA[i].name].volume.max, 'mean': mqttCamStatusValues[CAMERA_DATA[i].name].volume.mean, 'ffmpeg_stat': mqttCamStatusValues[CAMERA_DATA[i].name].ffmpeg_stat, 'cam_stat': 'running', "time": new Date().toISOString() } });
+                        mqttpublish(topic + "/" + CAMERA_DATA[i].name, messageReturn, mqttmsgoptions, mqttCamStatusValues[CAMERA_DATA[i].name].msgid, function (posted) {
                         });
                     }
                     // Outputs log if an error is reported by FFMPEG
@@ -103,7 +103,7 @@ function startAnalysis(i, CAMERA_DATA) {
                         console.log((new Date().toISOString()) + ": FFmpeg End Err : " + arrayFFMPEGCount[CAMERA_DATA[i].name] + " : " + CAMERA_DATA[i].name + " Cleared: " + statVolume.errmsg);
                         mqttCamStatusValues[CAMERA_DATA[i].name].volume.ffmpeg_stat = "Process Error";
                         mqttCamStatusValues[CAMERA_DATA[i].name].msgid = statVolume.id;
-                        messageReturn = JSON.stringify({ "volume": { 'max': mqttCamStatusValues[CAMERA_DATA[i].name].max, 'mean': mqttCamStatusValues[CAMERA_DATA[i].name].mean, 'ffmpeg_stat': "Process Error", 'cam_stat': 'running', "time": new Date().toISOString() } });
+                        messageReturn = JSON.stringify({ "volume": { 'max': mqttCamStatusValues[CAMERA_DATA[i].name].volume.max, 'mean': mqttCamStatusValues[CAMERA_DATA[i].name].volume.mean, 'ffmpeg_stat': "Process Error", 'cam_stat': 'running', "time": new Date().toISOString() } });
                         mqttpublish(topic + "/" + CAMERA_DATA[i].name, messageReturn, mqttmsgoptions, statVolume.id, function (posted) {
                         });
                         //clearInterval(arrayCamTimeIntervals[CAMERA_DATA[i].name]);
@@ -433,10 +433,11 @@ function getVolumeAnalysis(SINGLECAMERA_DATA, id, callback) {
         // Deal with Errors when running FFMPEG command or when FFMPEG stopped
         .on('error', function (err, stdout, stderr) {
             let statVolume = {};
+            statVolume.id = id;
             console.log((new Date().toISOString()) + ': ffmpeg reply   : ffmpeg error: ' + SINGLECAMERA_DATA.name);
             //console.log('Cannot process video, kill process: ' + SINGLECAMERA_DATA.name +' error: ' + err.message);
             statVolume.error = true;
-            statVolume.errmsg = 'ffmpeg major error:Cannot process video for ' + SINGLECAMERA_DATA.name;
+            statVolume.errmsg = 'ffmpeg major error: Cannot process audio for ' + SINGLECAMERA_DATA.name;
             statVolume.stat = "ffmpeg major error";
             CAMERA_FFMPEG_PROCESS[SINGLECAMERA_DATA.name].kill();
             return callback(statVolume);
